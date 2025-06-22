@@ -2,8 +2,8 @@ name: Daily Commit Workflow
 
 on:
   schedule:
-    - cron: "0 6 * * *"  # Runs at 06:00 UTC every day
-  workflow_dispatch:      # Allows manual trigger
+    - cron: "0 6 * * *"  # Runs daily at 06:00 UTC
+  workflow_dispatch:
 
 jobs:
   daily-commit:
@@ -15,12 +15,12 @@ jobs:
 
       - name: Step by 23f2000137@ds.study.iitm.ac.in
         run: |
-          echo "Daily run at $(date)" >> daily-log.txt
+          echo "Daily run: $(date -u)" >> daily-log.txt
 
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add daily-log.txt
-          git commit -m "Daily update at $(date)" || echo "Nothing to commit"
+          git commit -m "Daily update at $(date -u)" || echo "Nothing to commit"
           git push
